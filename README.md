@@ -7,25 +7,10 @@ Convert supermarket catalogue specials to Markdown to post on OzBargain.
 ```javascript
 const app = async () => {
   const catalogueId = 22322;
+  const retailerId = 148;
   const locationId = 8245;
-  const categoryDefinitions = [
-    { name: 'Bread & Bakery', ids: [563] },
-    { name: 'Fruit & Vegetables', ids: [526] },
-    { name: 'Meat, Seafood & Deli', ids: [525, 527, 528] },
-    { name: 'Pantry', ids: [533, 534, 535, 537, 538, 548] },
-    { name: 'Frozen', ids: [542] },
-    { name: 'Drinks', ids: [540] },
-    { name: 'Healthy Living', ids: [544] },
-    { name: 'Household', ids: [545, 546, 550] },
-    { name: 'Health & Beauty', ids: [552, 531] },
-    { name: 'Baby', ids: [529] },
-    { name: 'Pet', ids: [551] },
-    { name: 'Stationery & Media', ids: [672] },
-    { name: 'Clothing', ids: [673] },
-    { name: 'Liquor', ids: [532] },
-  ];
 
-  const ozb = new OzBargainCataloguePost(catalogueId, locationId, categoryDefinitions);
+  const ozb = new OzBargainCataloguePost(retailerId, catalogueId, locationId);
   await ozb.load();
   console.log(ozb.render());
 };

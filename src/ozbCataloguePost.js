@@ -1,30 +1,31 @@
-const Category = require('./category');
 const SaleFinderAPI = require('./api');
 
 class OzBargainCataloguePost {
-  constructor(catalogueId, locationId, categoryDefinitions, threshold = 0.5) {
-    this.api = new SaleFinderAPI(catalogueId, locationId);
-    this.categoryDefinitions = categoryDefinitions;
-    this.categories = [];
+  constructor(retailerId, catalogueId, locationId, threshold = 0.5) {
+    this.api = new SaleFinderAPI();
+    this.catalogueId = catalogueId;
+    this.locationId = locationId;
+    this.retailerId = retailerId;
+    this.specialsByCategory = [];
     this.threshold = threshold;
   }
 
   async load() {
-    const results = this.categoryDefinitions.map(async definition => this.loadCategory(definition));
-    return Promise.all(results)
-      .then((categories) => {
-        this.categories = categories;
-        return categories;
-      });
-  }
+    const categories = await this.api.getCategories(this.catalogueId, this.retailerId);
+    const results = categories.map(async category => this.api.getCategorySpecials(
+      category,
+      this.catalogueId,
+      this.locationId,
+    ));
 
-  async loadCategory(definition) {
-    const html = await this.api.getCategories(definition.ids);
-    return Category.fromHTML(definition.name, html.content.replace('/[\r\n\t]/g', ''));
+    return Promise.all(results).then((specialsByCategory) => {
+      this.specialsByCategory = specialsByCategory;
+      return specialsByCategory;
+    });
   }
 
   render() {
-    return this.categories
+    return this.specialsByCategory
       .map((category) => {
         const tableHeader = `|${category.name}|Was|Now|Discount|\n|-|-|-|-|`;
 

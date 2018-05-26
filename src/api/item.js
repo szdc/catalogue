@@ -17,10 +17,17 @@ class Item {
     return `${Math.round(this.getDiscountPercent() * 100)}%`;
   }
 }
-Item.fromHTML = ($item) => {
-  const name = $item.find('.sf-item-heading').text();
-  const saveAmount = parseFloat($item.find('.sf-regprice').text().replace('$', ''));
-  const salePrice = parseFloat($item.find('.sf-pricedisplay').text().replace('$', ''));
+Item.fromHTML = ($item, selectorOverrides) => {
+  const selectors = {
+    name: '.sf-item-heading',
+    saveAmount: '.sf-regprice',
+    salePrice: '.sf-pricedisplay',
+    ...selectorOverrides,
+  };
+
+  const name = $item.find(selectors.name).text();
+  const saveAmount = parseFloat($item.find(selectors.saveAmount).text().replace('$', ''));
+  const salePrice = parseFloat($item.find(selectors.salePrice).text().replace('$', ''));
   const regularPrice = salePrice + saveAmount;
 
   return new Item(name, regularPrice, salePrice);

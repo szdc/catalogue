@@ -3,11 +3,12 @@ const cheerio = require('cheerio');
 const Category = require('./category');
 
 class SaleFinderAPI {
-  constructor() {
+  constructor(selectors = {}) {
     this.request = axios.create({
       baseURL: 'https://embed.salefinder.com.au/',
       timeout: 2000,
     });
+    this.selectors = selectors;
   }
 
   getCategories(catalogueId, retailerId) {
@@ -25,7 +26,7 @@ class SaleFinderAPI {
         const categories = [];
         $categories.each((i, category) => {
           categories.push(new Category(
-            $(category).attr('title'),
+            $(category).text(),
             $(category).attr('href')
               .match(/(?:categoryId=)([\d,]+)/)[1]
               .split(',')
@@ -51,6 +52,7 @@ class SaleFinderAPI {
         category.name,
         category.ids,
         content.replace(/[\r\n\t]/g, ''),
+        this.selectors,
       ));
   }
 

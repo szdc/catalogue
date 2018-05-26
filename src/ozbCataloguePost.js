@@ -1,8 +1,8 @@
 const SaleFinderAPI = require('./api');
 
 class OzBargainCataloguePost {
-  constructor(retailerId, catalogueId, locationId, threshold = 0.5) {
-    this.api = new SaleFinderAPI();
+  constructor(retailerId, catalogueId, locationId, selectors = {}, threshold = 0.5) {
+    this.api = new SaleFinderAPI(selectors);
     this.catalogueId = catalogueId;
     this.locationId = locationId;
     this.retailerId = retailerId;

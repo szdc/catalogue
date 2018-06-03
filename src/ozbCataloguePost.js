@@ -1,9 +1,10 @@
 const SaleFinderAPI = require('./api');
 
 class OzBargainCataloguePost {
-  constructor(retailerId, catalogueId, locationId, selectors = {}, threshold = 0.5) {
+  constructor(retailerId, catalogueId, locationId, selectors = {}, threshold = 0.5, comparator) {
     this.api = new SaleFinderAPI(selectors);
     this.catalogueId = catalogueId;
+    this.comparator = comparator;
     this.locationId = locationId;
     this.retailerId = retailerId;
     this.specialsByCategory = [];
@@ -25,11 +26,25 @@ class OzBargainCataloguePost {
   }
 
   render() {
+    const seen = new Map();
+
     return this.specialsByCategory
       .map((category) => {
         const tableHeader = `|${category.name}|Was|Now|Discount|\n|-|-|-|-|`;
 
-        const halfPriceItems = category.items.filter(i => i.getDiscountPercent() >= this.threshold);
+        let halfPriceItems = category.items
+          .filter(i => i.getDiscountPercent() >= this.threshold)
+          .filter((item) => {
+            if (seen.has(item.name)) {
+              return false;
+            }
+            seen.set(item.name, true);
+            return true;
+          });
+
+        if (typeof this.comparator === 'function') {
+          halfPriceItems = halfPriceItems.filter(this.comparator);
+        }
         if (halfPriceItems.length === 0) {
           return null;
         }

@@ -1,8 +1,10 @@
 class Item {
-  constructor(name, regularPrice, salePrice) {
+  constructor(name, regularPrice, salePrice, priceText = '', saleDatesText = '') {
     this.name = name;
+    this.priceText = priceText;
     this.regularPrice = regularPrice;
     this.salePrice = salePrice;
+    this.saleDatesText = saleDatesText;
   }
 
   getDiscount() {
@@ -20,8 +22,10 @@ class Item {
 Item.fromHTML = ($item, selectorOverrides) => {
   const selectors = {
     name: '.sf-item-heading',
-    saveAmount: '.sf-regprice',
+    priceText: '.sf-regoption:last-of-type',
     salePrice: '.sf-pricedisplay',
+    saleDatesText: '.sale-dates',
+    saveAmount: '.sf-regprice',
     ...selectorOverrides,
   };
 
@@ -29,8 +33,10 @@ Item.fromHTML = ($item, selectorOverrides) => {
   const saveAmount = parseFloat($item.find(selectors.saveAmount).text().replace('$', ''));
   const salePrice = parseFloat($item.find(selectors.salePrice).text().replace('$', ''));
   const regularPrice = salePrice + saveAmount;
+  const priceText = $item.find(selectors.priceText).text();
+  const saleDatesText = $item.find(selectors.saleDatesText).text();
 
-  return new Item(name, regularPrice, salePrice);
+  return new Item(name, regularPrice, salePrice, priceText, saleDatesText);
 };
 
 module.exports = Item;

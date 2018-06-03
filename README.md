@@ -5,17 +5,46 @@ Convert supermarket catalogue specials to Markdown to post on OzBargain.
 ## Example
 
 ```javascript
-const app = async () => {
-  const catalogueId = 22322;
-  const retailerId = 148;
-  const locationId = 8245;
+const OzBargainCataloguePost = require('./ozbCataloguePost');
 
-  const ozb = new OzBargainCataloguePost(retailerId, catalogueId, locationId);
+const app = async () => {
+  const supermarkets = [
+    {
+      name: 'coles',
+      catalogueId: 22322,
+      locationId: 8245,
+      retailerId: 148,
+    },
+    {
+      name: 'woolworths',
+      catalogueId: 22435,
+      comparator: item => item.priceText.indexOf('1/2 Price') !== -1 && item.saleDatesText.startsWith('Offer valid Wed 30 May'),
+      locationId: 4778,
+      retailerId: 126,
+      selectors: {
+        item: {
+          name: '.shelfProductTile-descriptionLink',
+        },
+      },
+    },
+  ];
+
+  const supermarket = supermarkets[1];
+
+  const ozb = new OzBargainCataloguePost(
+    supermarket.retailerId,
+    supermarket.catalogueId,
+    supermarket.locationId,
+    supermarket.selectors,
+    0.5,
+    supermarket.comparator,
+  );
   await ozb.load();
   console.log(ozb.render());
 };
 
 app();
+
 ```
 
 Outputs:

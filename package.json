@@ -1,19 +1,38 @@
 {
   "name": "catalogue",
-  "description": "Converts supermarket catalogues to Markdown",
+  "description": "Parse supermarket catalogues from SaleFinder",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "homepage": "https://github.com/szdc/catalogue#readme",
+  "author": "Jack Willis-Craig",
+  "bugs": {
+    "url": "https://github.com/szdc/catalogue/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/szdc/catalogue.git"
+  },
+  "keywords": [
+    "salefinder",
+    "supermarket",
+    "catalogue"
+  ],
   "scripts": {
-    "lint": "eslint src"
+    "lint": "tslint --project tsconfig.json --config tslint.json",
+    "test": "npm run lint && npm run type-check",
+    "type-check": "tsc --project tsconfig.json --noEmit",
+    "watch": "tsc -w"
   },
   "dependencies": {
+    "@types/cheerio": "^0.22.7",
     "axios": "^0.18.0",
     "cheerio": "^1.0.0-rc.2"
   },
   "devDependencies": {
-    "eslint": "^4.19.1",
-    "eslint-config-airbnb-base": "^12.1.0",
-    "eslint-plugin-import": "^2.11.0"
+    "@types/node": "^10.3.0",
+    "tslint": "^5.10.0",
+    "tslint-config-airbnb": "^5.9.2",
+    "typescript": "^2.9.1"
   }
 }

@@ -1,6 +1,6 @@
 # Catalogue
 
-Convert supermarket catalogue specials to Markdown to post on OzBargain.
+Parse catalogue specials to collect statistics, convert to Markdown to post on OzBargain, or something else entirely.
 
 ## Example
 

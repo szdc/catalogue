@@ -84,7 +84,8 @@ export class DefaultCatalogueParser implements CatalogueParser {
 
     const cIdMatchRes = $item.find(this.itemSelectors.catalogueId).attr('href').match(/saleId=(\d+)/);
     const catalogueId = cIdMatchRes !== null && cIdMatchRes.length > 1 ? Number(cIdMatchRes[1]) : -1;
+    const priceText = $item.find(this.itemSelectors.priceText).text();
 
-    return new Item(name, regularPrice, salePrice, catalogueId);
+    return new Item(name, regularPrice, salePrice, catalogueId, priceText);
   }
 }

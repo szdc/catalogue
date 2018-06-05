@@ -21,7 +21,7 @@ export class DefaultCatalogueParser implements CatalogueParser {
   constructor(itemSelectors: ItemSelectors = {} as ItemSelectors) {
     this.itemSelectors = {
       name: '.sf-item-heading',
-      priceText: '.sf-regoption:last-of-type',
+      priceText: '.sf-regoption',
       salePrice: '.sf-pricedisplay',
       saveAmount: '.sf-regprice',
       catalogueId: '.sf-item-heading',

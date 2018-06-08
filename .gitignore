@@ -1,11 +1,15 @@
 # dependencies
 node_modules/
 
-# testing
-/coverage/
-
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
 .idea/
+
+# output
+/lib/
+
+#s coverage
+/.nyc_output/
+/coverage/

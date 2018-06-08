@@ -1,4 +1,4 @@
-# Catalogue
+# Catalogue &middot; [![Build Status](https://travis-ci.com/szdc/catalogue.svg?branch=master)](https://travis-ci.com/szdc/catalogue) [![Coverage Status](https://coveralls.io/repos/github/szdc/catalogue/badge.svg?branch=master)](https://coveralls.io/github/szdc/catalogue?branch=master)
 
 Parse catalogue specials to collect statistics, convert to Markdown to post on OzBargain, or something else entirely.
 

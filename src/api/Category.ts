@@ -5,7 +5,7 @@ export default class Category {
   readonly ids: number[];
   items: Item[];
 
-  constructor(name: string, ids: number[], items = []) {
+  constructor(name: string, ids: number[], items: Item[] = []) {
     this.name = name;
     this.ids = ids;
     this.items = items;

@@ -22,7 +22,8 @@
     "build": "tsc",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "lint": "tslint --project tsconfig.json --config tslint.json",
-    "test": "nyc --reporter=text mocha",
+    "test": "mocha",
+    "test-with-coverage": "nyc --reporter=text mocha",
     "type-check": "tsc --project tsconfig.json --noEmit",
     "watch": "tsc -w"
   },

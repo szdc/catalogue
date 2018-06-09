@@ -1,12 +1,12 @@
 import * as cheerio from 'cheerio';
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
+import axios, { AxiosInstance, AxiosResponse } from 'axios';
 import { CatalogueParser, DefaultCatalogueParser } from './CatalogueParser';
 import Category from './Category';
 import Item from './Item';
 
 export interface SaleFinderAPIConfig {
   catalogueParser: CatalogueParser;
-  requestConfig: AxiosRequestConfig;
+  requestInstance: AxiosInstance;
   rowsPerPage: number;
 }
 
@@ -32,11 +32,9 @@ export default class SaleFinderAPI implements ISaleFinderAPI {
       ...config,
     };
 
-    this.request = axios.create({
-      baseURL: 'https://embed.salefinder.com.au/',
-      timeout: 5000,
-      ...config.requestConfig,
-    } as AxiosRequestConfig);
+    this.request = this.config.requestInstance || axios.create();
+    this.request.defaults.baseURL = this.request.defaults.baseURL || 'https://embed.salefinder.com.au/';
+    this.request.defaults.timeout = this.request.defaults.timeout || 5000;
   }
 
   getCategories = (catalogueId: number, retailerId: number) =>

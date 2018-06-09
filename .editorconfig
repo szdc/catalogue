@@ -12,5 +12,5 @@ insert_final_newline = true
 indent_style = tab
 indent_size = 4
 
-[test/testdata/**.md]
+[test/**/testdata/*]
 insert_final_newline = false

@@ -21,6 +21,19 @@ describe('DefaultCategoryParser', () => {
     });
   });
 
+  describe('#parseCategory()', () => {
+    it('should parse correctly', () => {
+      const content = fs.readFileSync('test/api/testdata/category.html').toString();
+      const $ = cheerio.load(content);
+
+      const parser = new DefaultCatalogueParser();
+      const items = parser.parseCategory($);
+      assert.lengthOf(items, 2);
+      assert.equal(items[0].name, 'Doritos Corn Chips 150g-170g');
+      assert.equal(items[1].name, 'Coles Ultimate Mini Pies Apple or Cherry 6 Pack');
+    });
+  });
+
   describe('#parseItem()', () => {
     it('should parse correctly', () => {
       const content = fs.readFileSync('test/api/testdata/item.html').toString();

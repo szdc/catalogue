@@ -5,7 +5,7 @@ import { assert } from 'chai';
 import { DefaultCatalogueParser } from '../../src/api/CatalogueParser';
 import Category from '../../src/api/Category';
 
-describe('DefaultCategoryParser', () => {
+describe('DefaultCatalogueParser', () => {
   describe('#parseCategoryList()', () => {
     it('should parse correctly', () => {
       const content = fs.readFileSync('test/api/testdata/category-list.html').toString();

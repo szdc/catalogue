@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 import { ISaleFinderAPI, SaleFinderAPIConfig } from '../api';
 import { CatalogueParser, DefaultCatalogueParser } from '../api/CatalogueParser';
 import Category from '../api/Category';
@@ -11,6 +13,23 @@ export default class ColesCatalogue {
   readonly locationId: number;
 
   specialsByCategory: Category[];
+
+  static getCatalogues = (apiKey: string, postcode = 2000, format = 'njson') =>
+    axios.get<ColesCatalogueResponse|string>(
+      'https://webservice.salefinder.com.au/index.php/api/sales/colescatalogues/',
+      {
+        params: {
+          postcode,
+          format,
+          apikey: apiKey,
+        },
+      },
+    ).then((res) => {
+      if (!(<ColesCatalogueResponse>res.data).items) {
+        throw new Error(<string>res.data);
+      }
+      return (<ColesCatalogueResponse>res.data).items;
+    })
 
   constructor(api: ISaleFinderAPI, catalogueId: number, retailerId = 148, locationId = 8245) {
     this.api = api;
@@ -61,4 +80,22 @@ export default class ColesCatalogue {
 
     return renderer(categories);
   }
+}
+
+export interface ColesCatalogueResponse {
+  items: ColesCatalogueDetail[];
+}
+
+export interface ColesCatalogueDetail {
+  catalogueLink?: string;
+  dateDisplay: string;
+  description?: string;
+  displayName: string;
+  endDate?: string;
+  featureImage?: string;
+  publishDate?: string;
+  saleId?: string;
+  saleName: string;
+  startDate: string;
+  updateTimeStamp?: string;
 }
